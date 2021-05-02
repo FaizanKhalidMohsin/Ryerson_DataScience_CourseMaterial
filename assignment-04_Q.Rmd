@@ -1,0 +1,145 @@
+---
+title: 'CIND 123 Winter 2018 - Assignment #4'
+author: "Write your name here"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Use RStudio for this assignment. 
+Edit the file `assignment-4.Rmd` and insert your R code where wherever you see the string "INSERT YOUR ANSWER HERE"
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+
+## Sample Question and Solution
+
+Use `seq()` to create the vector $(2,4,6,\ldots,20)$.
+
+```{r}
+#Insert your code here.
+seq(2,20,by = 2)
+```
+In this assignment, questions 1 - 4 make use of data that is provided by the
+`mosaic` package.  (install mosaic package and load KidsFeet using data(KidsFeet) ). 
+```{r}
+#install.packages('mosaic')
+library(mosaic)
+data(KidsFeet)
+```
+
+
+
+
+## Question 1 - 30%
+This question makes use of package "plm", and load Crime dataset as following:
+```{r load_packages}
+#install.packages("plm")
+library(plm) 
+data(Crime)
+```
+
+a) Display the first 10 rows of crime and make note of all the variables.
+```{r}
+head(Crime, 10)
+
+str(Crime)
+```
+b) Calculate the mean,variance and standard deviation of tax revenue per capita (taxpc) by omitting the missing values, if any.
+```{r}
+# require(Hmisc)
+# describe(na.omit(Crime$taxpc))
+# describe(Crime$taxpc)
+
+mean(na.omit(Crime$taxpc))
+sd(na.omit(Crime$taxpc))
+var(na.omit(Crime$taxpc))
+
+```
+c) Use `density` and `smsa` to predict tax per capita and build a univariate linear regression model, display a summary of your model indicating Residuals, Coefficients..etc. What can you say about your model? 
+```{r}
+#Insert your code here
+```
+d)Based on the output of your model, write the equations based on the intercept and factors of `smsa` when `density` is set to 2.4, and compare the result with `predict()` function. Hint: Explore `predict()` function
+```{r}
+#Insert your answer here
+
+```
+
+e)Find Pearson correlation between tax per capita and density. Please comment on the result with a sentence.
+```{r}
+#Insert your code here
+
+```
+f)Write the correlation matrix of the variables: avgsen, polpc, density, taxpc. Hint: Explore the variables by ?Crime. Comment on the result with a sentence.
+```{r}
+#Insert your code here  
+```
+
+
+```{r}
+x <- rnorm(15)
+y <- x + rnorm(15)
+predict(lm(y ~ x))
+new <- data.frame(x = 2)
+predict(lm(y ~ x), new, se.fit = TRUE)
+pred.w.plim <- predict(lm(y ~ x), new, interval = "prediction")
+pred.w.clim <- predict(lm(y ~ x), new, interval = "confidence")
+```
+
+
+## Question 2 -30%
+ 
+a) First and second midterm grades of some students are given as c(85,76,78,88,90,95,42,31) and c(55,76,48,58,80,75,32,22). Set R variables `first` and `second` respectively.
+```{r}
+
+```
+b) Apply the lm() function to observe the relationship between the first and the second midterm grades. Hint: Second midterm is the response variable.
+```{r}
+#Insert your code here
+```
+c) Find the second midterm grade of a student given that his/her first midterm grade is 72. Print the result by using print() function. 
+```{r}
+#Insert your code here
+```
+
+## Question 3 - 40%
+
+$\pi$ appears in the formula for the standard normal distribution, the most important probability distribution in statistics. Why not give it a try to calculate $\pi$ using statistics! In fact, you'll use a simulation technique called the *Monte Carlo Method*.
+
+Recall that the area of a circle of radius $r$ is $A = \pi r^2$. Therefore the area of a circle of radius 1, aka a *unit circle*, is $\pi$. You'll compute an approximation to the area of this circle using the Monte Carlo Method.
+
+a) The Monte Carlo Method uses random numbers to simulate some process. Here the process is throwing darts at a square. Assume the darts are uniformly distributed over the square. Imagine a unit circle enclosed by a square whose sides are of length 2. Set an R variable `area.square` to be the area of a square whose sides are of length 2.
+
+```{r}
+
+area.square = 2*2
+```
+b) The points of the square can be given x-y coordinates. Let both x and y range from -1 to +1 so that the square is centred on the origin of the coordinate system. Throw some darts at the square by generating random numeric vectors x and y, each of length `N = 10,000`. Set R variables `x` and `y` each to be uniformly distributed random numbers in the range -1 to +1.
+(hint: runif() generates random number for the uniform distribution)
+```{r}
+
+N = 10000
+x = runif(N, -1,1)
+y = runif(N, -1,1)
+
+```
+c) Now count how many darts landed inside the unit circle. Recall that a point is inside the unit circle when $x^2 + y^2 < 1$. Save the result of successfull hits in a variable named hit. 
+(hint: a for loop over the length of x and y is one option to reach hit)
+```{r}
+
+b = ifelse(x*x+y*y<1, 1, 0)
+sum(b)
+
+```
+d) The probability that a dart hits inside the circle is proportional to the ratio of the area of the circle to the area of the square. Use this fact to calculate an approximation to $\pi$ and print the result
+```{r}
+our_pi = (sum(b)/N)*area.square
+our_pi
+```
+Wow you got the first estimate for `pi` $\pi$, congratulations you have completed the first run of the Monte Carlo simulation.
+If there is further intrest put all the above logic in a function, and call it 50 times store the results in a vector called pi then take the mean of pi vector. 
+
